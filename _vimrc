@@ -133,7 +133,6 @@ nnoremap gf <c-w>gf
 "------------------------------------------------------------------------------
 
 " associe les *.toto a la syntax toto. Le fichier de syntax doit se trouver dans vimfile/syntax
-au BufRead,BufNewFile *.iv set filetype=iv
 au BufRead,BufNewFile *asm* set filetype=asm
 au BufRead,BufNewFile *.fp set filetype=arb
 
@@ -198,10 +197,6 @@ set completeopt=longest,menu,preview ",menuone
 
 " utilise la completion C classique pour le glsl
 au BufNewFile,BufRead,BufEnter *.glsl set omnifunc=ccomplete#Complete
-
-" regenere le ctags avec ctrl-F12
-" j'ai jamais reussi a faire marcher ctags correctement alors...
-" map <C-F12> :!ctags -R --langmap=c++:.glsl -f \%OIVHOME\%/../VolumeViz/shaders/tags \%OIVHOME\%/../OpenInventor/shaders \%OIVHOME\%/../VolumeViz/shaders \%OIVHOME\%/shaders/include <cr>
 
 " do not run ctags when display SrcExpl. ctags suck with our shaders...
 let g:SrcExpl_isUpdateTags = 0
