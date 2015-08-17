@@ -37,6 +37,8 @@ set undofile            " alow persistent undo (save undo when file is closed)
 set undodir=$TMP        " direcory where is saved undofiles
 set visualbell          " don't beep on error
 set noshowmode          " desactive l'affichage du mode (INSERT, VISUAL, ...). J'utilise vim-airline a la place.
+set hidden              " Pour pouvoir ouvrir un fichier dans un nouveau buffer sans fermer et devoir enregistrer le buffer existant
+
 
 " le theme desert affiche du blanc par defaut. Ca pete un peu les yeux alors je mets du gris clair
 hi Normal	guifg=grey90
@@ -128,6 +130,11 @@ vnoremap <C-X> <Esc>`.``gvP``P
 " ouvre le fichier situe sous le curseur dans un nouvel onglet
 nnoremap gf <c-w>gf
 
+" ctrl+tab to cycle through buffers
+nnoremap <C-tab> :bnext<CR>
+nnoremap <C-right> :bnext<CR>
+nnoremap <C-left> :bprev<CR>
+
 "------------------------------------------------------------------------------
 " necessite plugin, syntax, etc...
 "------------------------------------------------------------------------------
@@ -177,6 +184,15 @@ let g:airline_mode_map = {
       \ '' : 'S',
       \ }
 
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+" change tab separator to | instead of arrow
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
 
 "----------------------------------------------------------------
 " config de ctags
