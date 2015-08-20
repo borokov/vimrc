@@ -5,7 +5,8 @@ execute pathogen#infect()
 
 "------------------------------------------------------------------------------
 " common
-colorscheme desert			" style de coloration
+" colorscheme desert			" style de coloration
+colorscheme solarized			" style de coloration
 
 set tabstop=2						" tab = 2 spaces
 set shiftwidth=2				" tab = 2 spaces
@@ -39,17 +40,11 @@ set visualbell          " don't beep on error
 set noshowmode          " desactive l'affichage du mode (INSERT, VISUAL, ...). J'utilise vim-airline a la place.
 set hidden              " Pour pouvoir ouvrir un fichier dans un nouveau buffer sans fermer et devoir enregistrer le buffer existant
 
-
-" le theme desert affiche du blanc par defaut. Ca pete un peu les yeux alors je mets du gris clair
-hi Normal	guifg=grey90
-
 set nu                  " affiche le num de la ligne
-" change la couleur et la font des numeros de ligne a gauche
-hi LineNr guibg=#2a2a2a guifg=DarkGrey font=Consolas:h10:cANSI:
+" change la font des numeros de ligne a gauche
+hi LineNr font=Consolas:h10:cANSI:
 
 set cursorline          " affiche la ligne ou se trouve le curseur
-" couleur de la ligne ou se trouve le curseur
-hi CursorLine guibg=#2a2a2a
 
 " Pour retrouver la bonne font qui va bien
 " set guifont=Courier_New:h10:b:cANSI:
@@ -134,6 +129,8 @@ nnoremap gf <c-w>gf
 nnoremap <C-tab> :bnext<CR>
 nnoremap <C-right> :bnext<CR>
 nnoremap <C-left> :bprev<CR>
+nnoremap <C-down> :bdelete<CR>
+
 
 "------------------------------------------------------------------------------
 " necessite plugin, syntax, etc...
@@ -166,8 +163,10 @@ let g:indent_guides_enable_on_vim_startup = 1
 
 " airline (:h aireline)
 let g:airline_powerline_fonts = 1      " utilise les font patche pour avoir les symbole > et <
-let g:airline_theme='bubblegum'        " theme
+" let g:airline_theme='bubblegum'        " theme
+let g:airline_theme='solarized'        " theme
 let g:airline_section_x=''             " rien. Normalement c'est le fileType
+let g:airline_section_y=''             " rien. Normalement c'est l'encodage
 let g:airline_section_z='%p%% [%l/%L]' " affiche line/totalLine a droite de la barre
 " affiche I, N, V au lieu de INSERT, VISUAL, ...
 let g:airline_mode_map = {
