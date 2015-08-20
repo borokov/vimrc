@@ -9,4 +9,5 @@ Require some plugins:
 * [nerdtree](https://github.com/scrooloose/nerdtree)
 * [vim-airline](https://github.com/bling/vim-airline)
 * [vim-fugitive](https://github.com/tpope/vim-fugitive)
+* [solarized theme](https://github.com/altercation/solarized)
 
