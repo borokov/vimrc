@@ -44,6 +44,13 @@ set nu                  " affiche le num de la ligne
 " change la font des numeros de ligne a gauche
 hi LineNr font=Consolas:h10:cANSI:
 
+" EXPERIEMENTAL Utilise DirectX au lieu de GDI comme render engine des font. Permet un meilleur AntiAliasing.
+" dispo sur gVim 7.4.393:
+" https://tuxproject.de/projects/vim/
+" ou http://sourceforge.net/projects/cream/files/Vim/
+" Voir https://www.reddit.com/r/vim/comments/2ex6kh/set_renderoptions_windows/ for details
+set renderoptions=type:directx,gamma:1.5,contrast:0.5,geom:1,renmode:5,taamode:1,level:0.5
+
 set cursorline          " affiche la ligne ou se trouve le curseur
 
 " Pour retrouver la bonne font qui va bien
