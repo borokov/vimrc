@@ -5,7 +5,7 @@ execute pathogen#infect()
 
 "------------------------------------------------------------------------------
 " common
-" colorscheme desert			" style de coloration
+"colorscheme mydesert			" style de coloration
 colorscheme solarized			" style de coloration
 
 set tabstop=2						" tab = 2 spaces
@@ -42,8 +42,7 @@ set hidden              " Pour pouvoir ouvrir un fichier dans un nouveau buffer 
 
 set nu                  " affiche le num de la ligne
 " change la font des numeros de ligne a gauche
-hi LineNr font=Consolas:h10:cANSI:
-
+hi Li font=Consolas:h10:cANSI:
 " EXPERIEMENTAL Utilise DirectX au lieu de GDI comme render engine des font. Permet un meilleur AntiAliasing.
 " dispo sur gVim 7.4.393:
 " https://tuxproject.de/projects/vim/
@@ -55,7 +54,6 @@ set cursorline          " affiche la ligne ou se trouve le curseur
 
 " Pour retrouver la bonne font qui va bien
 " set guifont=Courier_New:h10:b:cANSI:
-" ou si on utilise le plugin vim-airline
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h10
 " needed by vim-airline
 set encoding=utf-8
@@ -67,6 +65,11 @@ set laststatus=2			" affiche la statusline comme 2eme line
 
 " label pour les onglet. Nom du fichier et + si modif
 set guitablabel=%t%m
+
+" rajoute quelques dossier au path (pour ouvrir un fichier avec gf)
+set path=.,$OIVHOME/include
+set path=.,$OIVHOME/shaders/include
+set path=.,$OIVHOME/../VolumeViz/shaders
 
 " Use the cool tab complete command menu
 set wildmenu
@@ -82,8 +85,11 @@ au BufRead, BufNewFile *.txt set linebreak
 " utilise , au lieu de \ comme caractere special (pour definir des custom command)
 let mapleader = ","
 
+" desactive la recherche en tappant su escape
+nnoremap <Esc> :noh<cr>
+
 " utilise ,ev pour editer le vimrc (comme Edit Vimrc) et ,sv comme Source Vimrc.
-nnoremap <leader>ev :split $MYVIMRC<cr>
+nnoremap <leader>ev :e $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " ,tw pour virer les trailing whitespace en fin de ligne
@@ -138,7 +144,6 @@ nnoremap <C-right> :bnext<CR>
 nnoremap <C-left> :bprev<CR>
 nnoremap <C-down> :bdelete<CR>
 
-
 "------------------------------------------------------------------------------
 " necessite plugin, syntax, etc...
 "------------------------------------------------------------------------------
@@ -152,15 +157,23 @@ au BufRead,BufNewFile *.txt set linebreak
 
 " lance NERDTree (explorateur fichier) avec F9
 nnoremap <silent> <F9> :NERDTreeToggle<CR>
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
 
 " plugin bookmarking
 map <silent> bb :ToggleBookmark<CR>
 map <silent> bn :NextBookmark<CR>
 map <silent> bp :PreviousBookmark<CR>
 let g:bookmarking_menu = 1
+" use flag as symbole and set higroup to bookmarks
+" doesn't work if I put it in vimrc. Put it in bookmark.vim instead.
+" sign define bookmark text=-⚑ texthl=bookmarks
+" set flag color to red
+:hi bookmarks guifg=Red guibg=#073642
+" :hi SignColumn guibg=#2a2a2a
 
 " plugin MRU
-let MRU_Max_Entries = 10
+let MRU_Max_Entries = 20
 
 " plugin indent guide
 let g:indent_guides_guide_size = 1
@@ -170,7 +183,7 @@ let g:indent_guides_enable_on_vim_startup = 1
 
 " airline (:h aireline)
 let g:airline_powerline_fonts = 1      " utilise les font patche pour avoir les symbole > et <
-" let g:airline_theme='bubblegum'        " theme
+"let g:airline_theme='bubblegum'        " theme
 let g:airline_theme='solarized'        " theme
 let g:airline_section_x=''             " rien. Normalement c'est le fileType
 let g:airline_section_y=''             " rien. Normalement c'est l'encodage
@@ -200,8 +213,15 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 
+" Plugin CtrlP
+set wildignore+=*\\tmp\\*,\\arch-Windows*\\,*.swp,*.zip,*.exe,*.obj,*.dll,*.lib,*.html
+let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
+let g:ctrlp_max_files = 0
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
+
+
 "----------------------------------------------------------------
-" config de ctags
+" config d'autocompletion
 
 " ajoute les mots du dictionnaire quand on autocomplete avec ctrl-N (see help 'complete')
 set complete+=k
@@ -220,6 +240,9 @@ set completeopt=longest,menu,preview ",menuone
 " utilise la completion C classique pour le glsl
 au BufNewFile,BufRead,BufEnter *.glsl set omnifunc=ccomplete#Complete
 
+" regenere le ctags avec ctrl-F12
+" map <C-F12> :!ctags -R --langmap=c++:.glsl -f \%OIVHOME\%/../VolumeViz/shaders/tags \%OIVHOME\%/../OpenInventor/shaders \%OIVHOME\%/../VolumeViz/shaders \%OIVHOME\%/shaders/include <cr>
+
 " do not run ctags when display SrcExpl. ctags suck with our shaders...
 let g:SrcExpl_isUpdateTags = 0
 " open SrcExpl with F8
@@ -229,3 +252,10 @@ nmap <F8> :SrcExplToggle<CR>
 " /[\x7f-\xff]
 " remove ^M
 " :%s/ctrl-V ctrl-M//g
+
+
+"----------------------------------------------------------------
+" per filtype
+
+autocmd FileType python setlocal shiftwidth=4 tabstop=4
+
